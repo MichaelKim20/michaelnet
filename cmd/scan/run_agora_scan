@@ -1,0 +1,13 @@
+#!/bin/sh
+
+cd ~/agora-scan
+
+sudo /usr/sbin/groupadd -f agora
+sudo /usr/sbin/usermod -aG agora 'ubuntu'
+sudo chown ubuntu:agora /home/ubuntu/.michael -R
+sudo chmod g+rwx /home/ubuntu/.michael -R
+
+./bin/explorer --config ~/agoranet/michael/config/agora-scan/config-devnet.yml
+
+cd ~/agoranet/michael
+

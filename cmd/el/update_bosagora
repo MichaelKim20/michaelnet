@@ -1,0 +1,10 @@
+#!/bin/sh
+
+docker run -it \
+  -v $HOME/.michael/el:/data \
+  -v $HOME/michaelnet/config/el:/config \
+  --name el-node --rm \
+  bosagora/agora-el-node:v1.0.0 \
+  --datadir=/data \
+  init \
+  /config/genesis_bosagora.json

@@ -1,0 +1,17 @@
+#!/bin/sh
+if [ -z $1 ]
+then
+    echo "No parameter passed"
+    exit
+else
+    echo "Import Keys$1"
+fi
+
+docker run -it \
+-v $HOME/michaelnet/config/cl/validator_keys$1:/keys \
+-v $HOME/.michaelvalidators/prysm-wallet-v2:/wallet \
+--name validator --rm \
+bosagora/agora-cl-validator:v1.0.0 \
+accounts import \
+--keys-dir=/keys \
+--wallet-dir=/wallet

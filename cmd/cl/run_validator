@@ -1,0 +1,15 @@
+#!/bin/sh
+
+docker run -it \
+-v $HOME/.michael/cl:/cl \
+-v $HOME/michaelnet/config/cl:/config \
+-v $HOME/.michaelvalidators/prysm-wallet-v2:/wallet \
+--network="host" \
+--name validator --rm \
+bosagora/agora-cl-validator:v1.0.0 \
+--datadir=/cl \
+--chain-config-file=/config/chain-config.yaml \
+--accept-terms-of-use \
+--wallet-dir=/wallet \
+--beacon-rpc-provider=127.0.0.1:4000 \
+--wallet-password-file=/config/password.txt

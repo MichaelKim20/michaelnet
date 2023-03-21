@@ -1,0 +1,13 @@
+#!/bin/sh
+
+cd ~/boa-scan
+
+sudo /usr/sbin/groupadd -f agora
+sudo /usr/sbin/usermod -aG agora 'ubuntu'
+sudo chown ubuntu:agora /home/ubuntu/.michael -R
+sudo chmod g+rwx /home/ubuntu/.michael -R
+
+mix phx.server
+
+cd ~/agoranet/michael
+

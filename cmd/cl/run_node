@@ -1,0 +1,53 @@
+#!/bin/sh
+
+if [ "$1" = "scan" ]
+then
+
+docker run -it \
+  -v $HOME/.michael/cl:/cl \
+  -v $HOME/.michael/el:/el \
+  -v $HOME/michaelnet/config/cl:/config \
+  -p 3500:3500 -p 4000:4000 -p 13000:13000 -p 12000:12000/udp \
+  --name consensus-node --rm \
+  bosagora/agora-cl-node:v1.0.0 \
+  --datadir=/cl \
+  --execution-endpoint=/el/geth.ipc \
+  --chain-config-file=/config/chain-config.yaml \
+  --accept-terms-of-use \
+  --p2p-host-ip=$(curl -s v4.ident.me) \
+  --contract-deployment-block=15 \
+  --rpc-host=0.0.0.0 \
+  --grpc-gateway-host=0.0.0.0 \
+  --p2p-allowlist=public \
+  --p2p-denylist=private \
+  --min-sync-peers=0 \
+  --minimum-peers-per-subnet=0 \
+  --subscribe-all-subnets=true \
+  --slasher=false \
+  --rpc-max-page-size=500 \
+  --suggested-fee-recipient="0x929ffA6E11F7225876ec975797eF449B3c950482"
+
+else
+
+docker run -it \
+  -v $HOME/.michael/cl:/cl \
+  -v $HOME/.michael/el:/el \
+  -v $HOME/michaelnet/config/cl:/config \
+  -p 3500:3500 -p 4000:4000 -p 13000:13000 -p 12000:12000/udp \
+  --name consensus-node --rm \
+  bosagora/agora-cl-node:v1.0.0 \
+  --datadir=/cl \
+  --execution-endpoint=/el/geth.ipc \
+  --chain-config-file=/config/chain-config.yaml \
+  --accept-terms-of-use \
+  --p2p-host-ip=$(curl -s v4.ident.me) \
+  --contract-deployment-block=15 \
+  --rpc-host=0.0.0.0 \
+  --grpc-gateway-host=0.0.0.0 \
+  --p2p-allowlist=public \
+  --p2p-denylist=private \
+  --min-sync-peers=0 \
+  --minimum-peers-per-subnet=0 \
+  --suggested-fee-recipient="0x929ffA6E11F7225876ec975797eF449B3c950482"
+
+fi

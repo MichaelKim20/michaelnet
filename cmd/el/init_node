@@ -1,0 +1,32 @@
+#!/bin/sh
+if [ -z $1 ]
+then
+    echo "No parameter passed"
+    exit
+else
+    echo "Initialize Node$1"
+fi
+number=$1
+
+mkdir -p $HOME/.michael
+sudo rm -rf /home/ubuntu/.michael/el
+rm -rf $HOME/.michael/el
+mkdir $HOME/.michael/el
+mkdir $HOME/.michael/el/geth
+mkdir $HOME/.michael/el/keystore
+cp -rf $HOME/michaelnet/config/el/template/node$number/* $HOME/.michael/el
+
+docker run -it \
+  -v $HOME/.michael/el:/data \
+  -v $HOME/michaelnet/config/el:/config \
+  --name el-node --rm \
+  bosagora/agora-el-node:v1.0.0 \
+  --datadir=/data \
+  init \
+  /config/genesis.json
+
+
+if [ $number -ne 0 ]
+then
+  cp -f $HOME/michaelnet/config/el/nodekey/nodekey$number $HOME/.michael/el/geth/nodekey
+fi

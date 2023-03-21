@@ -1,0 +1,58 @@
+#!/bin/sh
+
+if [ -z $1 ]
+then
+    echo "No parameter passed"
+    exit
+else
+    echo "Run Node$1"
+fi
+
+if [ "$1" = "0" ]
+then
+
+docker run -it \
+  -v $HOME/.michael/el:/data \
+  -v $HOME/michaelnet/config/el:/config \
+  -p 30303:30303 -p 30303:30303/udp \
+  --name el-node --rm \
+  bosagora/agora-el-node:v1.0.0 \
+  --syncmode=full \
+  --datadir=/data \
+  --port=30303 \
+  --bootnodes="enode://6d59a1ce195d9251e8f5234b3dbd486cf15eeac6cb8199898af3e11b9b7f5c54e334317d1cc3ab8077360383bc08b8aa93299ccb169b55dbea59414847dbce2d@18.139.246.75:30303" \
+  --networkid=34559 console
+fi
+
+if [ "$1" = "1" ]
+then
+
+docker run -it \
+  -v $HOME/.michael/el:/data \
+  -v $HOME/michaelnet/config/el:/config \
+  -p 30303:30303 -p 30303:30303/udp \
+  -p 8545:8545 -p 8546:8546 \
+  --name el-node --rm \
+  bosagora/agora-el-node:v1.0.0 \
+  --syncmode=full \
+  --datadir=/data \
+  --port=30303 \
+  --networkid=34559 \
+  --http \
+  --http.addr="0.0.0.0" \
+  --http.port=8545 \
+  --http.corsdomain="*" \
+  --http.api="eth,net,txpool,web3" \
+  --http.vhosts="*" \
+  --ws \
+  --ws.port=8546 \
+  --ws.api="eth,net,txpool,web3" \
+  --ws.origins="*" \
+  --allow-insecure-unlock=true \
+  --unlock=0x67a4Abb1283Eba26c7EB6cf63798eC790000C967 \
+  --password=/config/password.txt \
+  --mine=true
+  console
+
+fi
+
