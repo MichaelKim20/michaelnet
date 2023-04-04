@@ -51,7 +51,7 @@ docker run -it \
   --allow-insecure-unlock=true \
   --unlock=0x67a4Abb1283Eba26c7EB6cf63798eC790000C967 \
   --password=/config/password.txt \
-  --mine=true
+  --mine=true \
   console
 
 fi

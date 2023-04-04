@@ -9,7 +9,6 @@ fi
 number=$1
 
 mkdir -p $HOME/.michael
-sudo rm -rf /home/ubuntu/.michael/el
 rm -rf $HOME/.michael/el
 mkdir $HOME/.michael/el
 mkdir $HOME/.michael/el/geth

@@ -1,0 +1,74 @@
+version: '3.7'
+
+services:
+  ipfs:
+    container_name: ipfs
+    hostname: ipfs
+    image: ipfs/go-ipfs
+    ports:
+      - '8080:8080'
+      - '4001:4001'
+      - '4001:4001/udp'
+      - '5001:5001'
+    volumes:
+      - $HOME/.ipfs:/data/ipfs
+      - $HOME/.ipfs_staging:/staging
+    restart: always
+    networks:
+      - graph-network
+
+  postgres:
+    image: postgres
+    container_name: postgres
+    ports:
+      - '5432:5432'
+    restart: always
+    command:
+      [
+        "postgres",
+        "-cshared_preload_libraries=pg_stat_statements"
+      ]
+    environment:
+      POSTGRES_PASSWORD: 7FDU0N3OWTIO
+      POSTGRES_USER: graph-node
+      POSTGRES_DB: graph-node
+      PGDATA: /postgresql/data
+      POSTGRES_INITDB_ARGS: "-E UTF8 --locale=C"
+    volumes:
+      - postgres-db:/postgresql/data
+    networks:
+      - graph-network
+
+  graph-node:
+    image: graphprotocol/graph-node:latest
+    container_name: graph-node
+    ports:
+      - '8000:8000'
+      - '8001:8001'
+      - '8020:8020'
+      - '8030:8030'
+      - '8040:8040'
+    restart: always
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    environment:
+      postgres_host: postgres
+      postgres_user: graph-node
+      postgres_pass: 7FDU0N3OWTIO
+      postgres_db: graph-node
+      ipfs: 'ipfs:5001'
+      ethereum: 'bosagora-michael:http://host.docker.internal:8545'
+      GRAPH_LOG: info
+      GRAPH_ALLOW_NON_DETERMINISTIC_IPFS: 'true'
+    networks:
+      - graph-network
+    depends_on:
+      - ipfs
+      - postgres
+
+networks:
+  graph-network:
+    driver: bridge
+
+volumes:
+  postgres-db:

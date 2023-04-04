@@ -17,7 +17,7 @@
     "terminalTotalDifficulty": 2000,
     "TerminalTotalDifficultyPassed": false,
     "clique": {
-      "period": 14,
+      "period": 2,
       "epoch": 30000
     },
     "bosagoraBlock": 100,
