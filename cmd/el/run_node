@@ -21,7 +21,7 @@ docker run -it \
   --datadir=/data \
   --port=30303 \
   --bootnodes="enode://6d59a1ce195d9251e8f5234b3dbd486cf15eeac6cb8199898af3e11b9b7f5c54e334317d1cc3ab8077360383bc08b8aa93299ccb169b55dbea59414847dbce2d@18.139.246.75:30303" \
-  --networkid=34559 console
+  --networkid=1337 console
 fi
 
 if [ "$1" = "1" ]
@@ -37,7 +37,7 @@ docker run -it \
   --syncmode=full \
   --datadir=/data \
   --port=30303 \
-  --networkid=34559 \
+  --networkid=1337 \
   --http \
   --http.addr="0.0.0.0" \
   --http.port=8545 \
